@@ -2,21 +2,23 @@ import React, { ReactNode } from 'react';
 
 interface MainTemplateProps {
   theme: string;
-  settingsComponent: ReactNode;
-  mainContent: ReactNode;
+  header?: ReactNode;
+  children: ReactNode;
 }
 
 export const MainTemplate: React.FC<MainTemplateProps> = ({
   theme,
-  settingsComponent,
-  mainContent
+  header,
+  children
 }) => {
   return (
     <div data-theme={theme} className="min-h-screen compact-layout">
-      <div className="absolute bottom-4 left-4 z-10">
-        {settingsComponent}
-      </div>
-      {mainContent}
+      {header && (
+        <div className="absolute top-4 right-4 z-10">
+          {header}
+        </div>
+      )}
+      {children}
     </div>
   );
 }; 

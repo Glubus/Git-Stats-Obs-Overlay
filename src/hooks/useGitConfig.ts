@@ -2,44 +2,49 @@ import { useState, useEffect } from 'react';
 
 interface GitConfig {
   project_path: string;
+  theme: string;
 }
 
 export interface UseGitConfigReturn {
-  config: GitConfig | null;
-  updateConfig: (newConfig: Partial<GitConfig>) => void;
+  path: string;
+  theme: string;
+  setPath: (path: string) => void;
+  setTheme: (theme: string) => void;
 }
 
 export const useGitConfig = (): UseGitConfigReturn => {
-  const [config, setConfig] = useState<GitConfig | null>(null);
+  const [path, setPath] = useState<string>(() => {
+    return localStorage.getItem('project_path') || '';
+  });
+
+  const [theme, setTheme] = useState<string>(() => {
+    return localStorage.getItem('theme') || 'dark';
+  });
+
+  const handleSetPath = (newPath: string) => {
+    setPath(newPath);
+    localStorage.setItem('project_path', newPath);
+  };
+
+  const handleSetTheme = (newTheme: string) => {
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
 
   useEffect(() => {
     fetch('/config.json')
       .then(response => response.json())
-      .then(data => setConfig(data))
+      .then(data => {
+        if (data.project_path) handleSetPath(data.project_path);
+        if (data.theme) handleSetTheme(data.theme);
+      })
       .catch(error => console.error('Error loading config:', error));
   }, []);
 
-  const updateConfig = async (newConfig: Partial<GitConfig>) => {
-    if (!config) return;
-    
-    const updatedConfig = { ...config, ...newConfig };
-    
-    try {
-      const response = await fetch('/config.json', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedConfig),
-      });
-      
-      if (response.ok) {
-        setConfig(updatedConfig);
-      }
-    } catch (error) {
-      console.error('Error updating config:', error);
-    }
+  return {
+    path,
+    theme,
+    setPath: handleSetPath,
+    setTheme: handleSetTheme
   };
-
-  return { config, updateConfig };
 }; 

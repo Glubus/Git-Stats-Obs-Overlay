@@ -19,14 +19,27 @@ export const useGitStats = (): UseGitStatsReturn => {
 
   const loadGitStats = useCallback(async () => {
     try {
-      setLoading(true);
+      // Si c'est le premier chargement, on met loading à true
+      if (!gitStats) {
+        setLoading(true);
+      }
       setError(null);
       
       const jsonStr = await invoke<string>('get_git_stats', { path: 'G:/potential' });
       const stats = JSON.parse(jsonStr);
+      
       if (Object.keys(stats).length > 0) {
-        setGitStats(stats);
-        setLastRefresh(new Date());
+        // On compare les valeurs importantes pour voir si on doit mettre à jour
+        const shouldUpdate = !gitStats || 
+          gitStats.today_commits !== stats.today_commits ||
+          gitStats.today_insertions !== stats.today_insertions ||
+          gitStats.today_deletions !== stats.today_deletions ||
+          gitStats.latest_commit.hash !== stats.latest_commit.hash;
+
+        if (shouldUpdate) {
+          setGitStats(stats);
+          setLastRefresh(new Date());
+        }
       }
     } catch (err) {
       console.error('Error loading git stats:', err);
@@ -34,7 +47,7 @@ export const useGitStats = (): UseGitStatsReturn => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [gitStats]);
 
   useEffect(() => {
     const init = async () => {

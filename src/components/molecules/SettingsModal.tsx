@@ -6,8 +6,10 @@ interface SettingsModalProps {
   onOpenChange: (isOpen: boolean) => void;
   path: string;
   theme: string;
+  layout: 'horizontal' | 'vertical';
   onPathChange: (path: string) => void;
   onThemeChange: (theme: string) => void;
+  onLayoutChange: (layout: 'horizontal' | 'vertical') => void;
   onSave: () => void;
 }
 
@@ -24,8 +26,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onOpenChange,
   path,
   theme,
+  layout,
   onPathChange,
   onThemeChange,
+  onLayoutChange,
   onSave
 }) => {
   return (
@@ -66,6 +70,20 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               {THEMES.map((t) => (
                 <option key={t} value={t}>{t}</option>
               ))}
+            </select>
+          </div>
+
+          <div className="form-control w-full mb-4">
+            <label className="label">
+              <span className="label-text">Disposition</span>
+            </label>
+            <select
+              className="select select-bordered w-full"
+              value={layout}
+              onChange={(e) => onLayoutChange(e.target.value as 'horizontal' | 'vertical')}
+            >
+              <option value="horizontal">Horizontale</option>
+              <option value="vertical">Verticale</option>
             </select>
           </div>
 
