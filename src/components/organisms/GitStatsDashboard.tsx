@@ -2,6 +2,7 @@ import React from 'react';
 import type { GitStats } from '../../types/git-stats';
 import { TodayStats } from '../molecules/TodayStats';
 import { CommitCard } from '../molecules/CommitCard';
+import { useGitConfig } from '../../hooks/useGitConfig';
 
 interface GitStatsDashboardProps {
   gitStats: GitStats;
@@ -14,6 +15,8 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
   onRefresh,
   loading
 }) => {
+  const { config } = useGitConfig();
+  
   const formatMessage = (message: string, maxLength: number = 60) => {
     if (message.length <= maxLength) return message;
     return message.substring(0, maxLength) + '...';
@@ -26,9 +29,16 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
         <h1 className="text-4xl font-bold text-primary mb-2">
           📊 Git Stats - {gitStats.project_name}
         </h1>
-        <p className="text-base-content/70">
-          Dernière mise à jour: {gitStats.last_updated}
-        </p>
+        <div className="space-y-1">
+          <p className="text-base-content/70">
+            Dernière mise à jour: {gitStats.last_updated}
+          </p>
+          {config && (
+            <p className="text-sm text-base-content/60">
+              Chemin du projet: {config.project_path}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">

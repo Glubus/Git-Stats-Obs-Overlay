@@ -1,12 +1,41 @@
-# Rsbuild project
+# Git Stats Dashboard
 
-## Setup
+Un tableau de bord pour visualiser les statistiques Git de votre projet.
 
-Install the dependencies:
+## Configuration
 
-```bash
-pnpm install
-```
+Pour configurer le chemin de votre projet Git :
+
+1. Créez un fichier `.env` à la racine du projet
+2. Ajoutez la variable suivante :
+   ```
+   PROJECT_PATH=chemin/vers/votre/projet
+   ```
+   Par exemple :
+   ```
+   PROJECT_PATH=C:/Users/username/projects/mon-projet
+   ```
+   
+Si aucun chemin n'est spécifié, le dossier courant sera utilisé par défaut.
+
+## Installation
+
+1. Installez les dépendances :
+   ```bash
+   pnpm install
+   ```
+
+2. Lancez l'application :
+   ```bash
+   pnpm dev
+   ```
+
+3. Exécutez le script de mise à jour des statistiques :
+   ```bash
+   ./update-git-stats.bat
+   ```
+
+Les statistiques seront automatiquement rafraîchies toutes les 30 secondes.
 
 ## Get started
 

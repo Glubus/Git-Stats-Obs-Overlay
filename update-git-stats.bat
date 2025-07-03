@@ -1,6 +1,15 @@
 @echo off
 echo Mise à jour des statistiques Git...
 
+REM Charger le chemin du projet depuis .env
+set PROJECT_PATH=.
+if exist .env (
+    for /f "tokens=1,* delims==" %%a in (.env) do (
+        if "%%a"=="PROJECT_PATH" set PROJECT_PATH=%%b
+    )
+)
+
+
 REM Aller dans le répertoire du programme Rust
 cd git-stats-fetcher
 
@@ -13,9 +22,11 @@ if %ERRORLEVEL% neq 0 (
     exit /b 1
 )
 
-REM Compiler et exécuter le programme Rust
-echo Compilation du programme Rust...
-cargo run --release -- --path .. --output ../public/git-stats.json
+REM Compiler et exécuter le programme Rust en mode continu
+echo Compilation et lancement du programme Rust...
+echo Analyse du projet: %PROJECT_PATH%
+echo Le programme va tourner en continu. Pressez Ctrl+C pour arrêter.
+cargo run --release -- --output G:\potential\public\git-stats.json --config ..\public\config.json
 
 if %ERRORLEVEL% neq 0 (
     echo Erreur lors de l'exécution du programme Rust

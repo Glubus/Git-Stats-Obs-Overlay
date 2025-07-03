@@ -15,4 +15,8 @@ export interface GitStats {
   today_commits: number;
   latest_commit: CommitInfo;
   last_updated: string;
+}
+
+export interface GitStatsConfig {
+  project_path: string;
 } 

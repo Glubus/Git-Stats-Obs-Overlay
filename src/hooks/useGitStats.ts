@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { GitStats } from '../types/git-stats';
+import appConfig from '../config/app.config';
 
 interface UseGitStatsReturn {
   gitStats: GitStats | null;
@@ -20,11 +21,11 @@ export const useGitStats = (): UseGitStatsReturn => {
       setLoading(true);
       setError(null);
       
-      // Charger depuis public/
-      const response = await fetch('/git-stats.json?t=' + Date.now());
+      // Charger depuis public/ avec le chemin configuré
+      const response = await fetch(`${appConfig.statsFilePath}?t=${Date.now()}`);
       
       if (!response.ok) {
-        throw new Error('Fichier de statistiques non trouvé. Exécutez update-git-stats.bat ou setup-demo.bat');
+        throw new Error('Fichier de statistiques non trouvé. Exécutez update-git-stats.bat');
       }
       
       const text = await response.text();
@@ -48,8 +49,8 @@ export const useGitStats = (): UseGitStatsReturn => {
   useEffect(() => {
     loadGitStats();
     
-    // Auto-refresh every 30 seconds
-    const interval = setInterval(loadGitStats, 30000);
+    // Auto-refresh using configured interval
+    const interval = setInterval(loadGitStats, appConfig.refreshInterval);
     
     return () => clearInterval(interval);
   }, [loadGitStats]);

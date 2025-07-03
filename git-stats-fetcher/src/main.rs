@@ -1,22 +1,29 @@
 use std::path::Path;
 use std::env;
 use std::fs;
+use std::thread;
+use std::time::Duration;
 use chrono::{DateTime, Local, NaiveDate};
 use clap::Parser;
 use git2::Repository;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 #[derive(Parser, Debug)]
 #[command(name = "git-stats-fetcher")]
 #[command(about = "Fetches Git statistics for today and latest commit")]
 struct Args {
-    /// Path to the git repository (defaults to current directory)
+    /// Path to the config file (defaults to ../public/config.json)
     #[arg(short, long)]
-    path: Option<String>,
+    config: Option<String>,
     
-    /// Output file path for JSON (defaults to ../src/git-stats.json)
+    /// Output file path for JSON (defaults to ../public/git-stats.json)
     #[arg(short, long)]
     output: Option<String>,
+
+    /// Run once and exit (default: false)
+    #[arg(short, long)]
+    once: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -40,20 +47,23 @@ struct CommitInfo {
     deletions: u32,
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let args = Args::parse();
+#[derive(Deserialize)]
+struct Config {
+    project_path: String,
+}
+
+fn read_config(config_path: &str) -> Result<String, Box<dyn std::error::Error>> {
+    let config_content = fs::read_to_string(config_path)
+        .map_err(|e| format!("Erreur lors de la lecture de {}: {}", config_path, e))?;
     
-    // Determine repository path
-    let repo_path = args.path.unwrap_or_else(|| {
-        env::current_dir()
-            .unwrap()
-            .parent() // Go up one level from git-stats-fetcher to the actual project
-            .unwrap_or_else(|| Path::new("."))
-            .to_string_lossy()
-            .to_string()
-    });
+    let config: Config = serde_json::from_str(&config_content)
+        .map_err(|e| format!("Erreur de parsing de {}: {}", config_path, e))?;
     
-    println!("Scanning repository at: {}", repo_path);
+    Ok(config.project_path)
+}
+
+fn update_stats(repo_path: &str, output_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+    println!("\nScanning repository at: {}", repo_path);
     
     // Open repository 
     let repo = Repository::open(&repo_path).map_err(|e| {
@@ -83,9 +93,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         last_updated: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
     };
     
-    // Output path
-    let output_path = args.output.unwrap_or_else(|| "../src/git-stats.json".to_string());
-    
     // Write JSON
     let json = serde_json::to_string_pretty(&stats)?;
     fs::write(&output_path, json)?;
@@ -96,6 +103,41 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Latest commit: {} by {}", 
              &stats.latest_commit.message[..std::cmp::min(50, stats.latest_commit.message.len())],
              stats.latest_commit.author);
+    
+    Ok(())
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let args = Args::parse();
+    
+    // Default paths
+    let config_path = args.config.unwrap_or_else(|| "../public/config.json".to_string());
+    let output_path = args.output.unwrap_or_else(|| "../public/git-stats.json".to_string());
+    
+    // Run continuously unless --once is specified
+    loop {
+        // Read project path from config file
+        match read_config(&config_path) {
+            Ok(repo_path) => {
+                // Update stats
+                if let Err(e) = update_stats(&repo_path, &output_path) {
+                    eprintln!("Erreur lors de la mise à jour des stats: {}", e);
+                }
+            }
+            Err(e) => {
+                eprintln!("Erreur lors de la lecture de la configuration: {}", e);
+            }
+        }
+        
+        // Exit if --once is specified
+        if args.once {
+            break;
+        }
+        
+        // Wait 30 seconds before next update
+        println!("\nAttente de 30 secondes avant la prochaine mise à jour...");
+        thread::sleep(Duration::from_secs(30));
+    }
     
     Ok(())
 }
