@@ -26,3 +26,22 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme="retro"] {
+  font-family: monospace;
+}
+
+html {
+  @apply bg-base-100;
+}
+
+html[data-theme="retro"] * {
+  font-family: monospace;
+}

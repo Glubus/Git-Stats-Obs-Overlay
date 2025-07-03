@@ -2,7 +2,7 @@ import React from 'react';
 import type { GitStats } from '../../types/git-stats';
 import { TodayStats } from '../molecules/TodayStats';
 import { CommitCard } from '../molecules/CommitCard';
-import { useGitConfig } from '../../hooks/useGitConfig';
+import { RefreshCw } from 'lucide-react';
 
 interface GitStatsDashboardProps {
   gitStats: GitStats;
@@ -15,55 +15,56 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
   onRefresh,
   loading
 }) => {
-  const { config } = useGitConfig();
-  
   const formatMessage = (message: string, maxLength: number = 60) => {
     if (message.length <= maxLength) return message;
     return message.substring(0, maxLength) + '...';
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-base-200 to-base-300 p-6">
+    <div className="min-h-screen bg-base-100 p-6">
       {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-primary mb-2">
-          📊 Git Stats - {gitStats.project_name}
-        </h1>
-        <div className="space-y-1">
-          <p className="text-base-content/70">
-            Dernière mise à jour: {gitStats.last_updated}
-          </p>
-          {config && (
-            <p className="text-sm text-base-content/60">
-              Chemin du projet: {config.project_path}
-            </p>
-          )}
+      <div className="navbar bg-base-200 rounded-box mb-6">
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold font-mono ml-4">
+            📊 Git Stats - {gitStats.project_name}
+          </h1>
+        </div>
+        <div className="flex-none gap-4">
+          <span className="text-base-content/70 text-sm font-mono">
+            Mise à jour: {gitStats.last_updated}
+          </span>
+          <button 
+            className={`btn btn-square btn-ghost ${loading ? 'loading' : ''}`}
+            onClick={onRefresh}
+            disabled={loading}
+          >
+            <RefreshCw className="w-6 h-6" />
+          </button>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <TodayStats
-          insertions={gitStats.today_insertions}
-          deletions={gitStats.today_deletions}
-          commits={gitStats.today_commits}
-        />
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Stats */}
+        <div className="w-full lg:w-1/3">
+          <TodayStats
+            insertions={gitStats.today_insertions}
+            deletions={gitStats.today_deletions}
+            commits={gitStats.today_commits}
+          />
+        </div>
 
-        <CommitCard
-          commit={gitStats.latest_commit}
-          formatMessage={formatMessage}
-        />
+        {/* Commit Info */}
+        <div className="w-full lg:w-2/3">
+          <CommitCard
+            commit={gitStats.latest_commit}
+            formatMessage={formatMessage}
+          />
+        </div>
       </div>
 
-      {/* Footer with refresh button */}
+      {/* Footer */}
       <div className="text-center mt-8">
-        <button 
-          className={`btn btn-primary ${loading ? 'loading' : ''}`}
-          onClick={onRefresh}
-          disabled={loading}
-        >
-          {loading ? 'Actualisation...' : '🔄 Actualiser'}
-        </button>
-        <p className="text-sm text-base-content/50 mt-2">
+        <p className="text-sm text-base-content/50 font-mono">
           Actualisation automatique toutes les 30 secondes
         </p>
       </div>

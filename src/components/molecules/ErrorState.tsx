@@ -1,4 +1,5 @@
 import React from 'react';
+import { AlertTriangle, RefreshCw } from 'lucide-react';
 
 interface ErrorStateProps {
   error: string;
@@ -7,13 +8,20 @@ interface ErrorStateProps {
 
 export const ErrorState: React.FC<ErrorStateProps> = ({ error, onRetry }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-base-200 to-base-300 flex items-center justify-center">
-      <div className="card w-96 bg-error text-error-content shadow-xl">
-        <div className="card-body text-center">
-          <h2 className="card-title justify-center">Erreur</h2>
-          <p>{error}</p>
-          <div className="card-actions justify-center">
-            <button className="btn btn-outline" onClick={onRetry}>
+    <div className="min-h-screen bg-base-100 flex flex-col items-center justify-center p-4">
+      <div className="card bg-base-200 shadow-xl">
+        <div className="card-body items-center text-center">
+          <AlertTriangle className="w-12 h-12 text-error" />
+          <h2 className="card-title font-mono mt-4">Erreur</h2>
+          <p className="text-error font-mono whitespace-pre-wrap">
+            {error}
+          </p>
+          <div className="card-actions mt-4">
+            <button 
+              className="btn btn-primary font-mono"
+              onClick={onRetry}
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
               Réessayer
             </button>
           </div>
