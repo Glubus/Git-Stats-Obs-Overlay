@@ -1,65 +1,134 @@
-# Git Stats Dashboard
+# Git Stats OBS Overlay
 
-Un tableau de bord pour visualiser les statistiques Git de votre projet.
+<div align="center">
 
-## Configuration
+![Git Stats Overlay](public/preview.png)
 
-Pour configurer le chemin de votre projet Git :
+A sleek OBS overlay to display your Git activity during streams.
 
-1. Créez un fichier `.env` à la racine du projet
-2. Ajoutez la variable suivante :
-   ```
-   PROJECT_PATH=chemin/vers/votre/projet
-   ```
-   Par exemple :
-   ```
-   PROJECT_PATH=C:/Users/username/projects/mon-projet
-   ```
-   
-Si aucun chemin n'est spécifié, le dossier courant sera utilisé par défaut.
+[![Made with React](https://img.shields.io/badge/Made%20with-React-61DAFB.svg)](https://reactjs.org/)
+[![Built with Rsbuild](https://img.shields.io/badge/Built%20with-Rsbuild-FF4154.svg)](https://rsbuild.dev/)
+[![Styled with TailwindCSS](https://img.shields.io/badge/Styled%20with-TailwindCSS-38B2AC.svg)](https://tailwindcss.com/)
+[![For OBS Studio](https://img.shields.io/badge/For-OBS%20Studio-302E31.svg)](https://obsproject.com/)
 
-## Installation
+</div>
 
-1. Installez les dépendances :
+## ✨ Features
+
+### Stream Integration
+- 🎥 **OBS Compatible**: Easy to add as a browser source in OBS Studio
+- 🔄 **Live Updates**: Real-time Git statistics during your streams
+- 📱 **Flexible Layout**: Horizontal mode for bottom bars, vertical for sidebars
+- 🎨 **Stream-ready Themes**: Multiple themes to match your stream aesthetic
+
+### Git Stats
+- 📊 **Commit Activity**: Show your latest commits in real-time
+- ➕ **Changes Tracking**: Display additions and deletions
+- 📁 **File Changes**: Monitor modified files count
+- 🔄 **Auto Refresh**: Updates every 30 seconds
+
+### Customization
+- 🌓 **Theme System**: Multiple themes powered by DaisyUI
+- 🌍 **Multiple Languages**: Support for English, Français, and 中文
+- 🎨 **Transparent Background**: Seamlessly integrates with your stream
+- ⚙️ **Easy Configuration**: Simple settings panel for quick adjustments
+
+## 🚀 Setup in OBS
+
+1. Install and run the overlay:
 ```bash
 pnpm install
-```
-
-2. Lancez l'application :
-   ```bash
-   pnpm dev
-   ```
-
-3. Exécutez le script de mise à jour des statistiques :
-   ```bash
-   ./update-git-stats.bat
-   ```
-
-Les statistiques seront automatiquement rafraîchies toutes les 30 secondes.
-
-## Get started
-
-Start the dev server, and the app will be available at [http://localhost:3000](http://localhost:3000).
-
-```bash
 pnpm dev
 ```
 
-Build the app for production:
+2. In OBS Studio:
+   - Add a new "Browser" source
+   - Set the URL to `http://localhost:3000`
+   - Set the width and height according to your needs
+   - Enable "Refresh browser when scene becomes active"
 
+3. Run the stats update script:
 ```bash
-pnpm build
+./update-git-stats.bat
 ```
 
-Preview the production build locally:
+## ⚙️ Configuration
 
-```bash
-pnpm preview
+### Git Project Setup
+
+Create an `.env` file in the project root:
+```env
+# Path to your Git repository to track
+PROJECT_PATH=C:/Users/username/projects/my-project
+
+# Update interval in milliseconds (default: 30000)
+UPDATE_INTERVAL=30000
 ```
 
-## Learn more
+### OBS Source Settings
 
-To learn more about Rsbuild, check out the following resources:
+Recommended browser source settings:
+- **Width**: 800px (horizontal) / 300px (vertical)
+- **Height**: 200px (horizontal) / 600px (vertical)
+- **FPS**: 60
+- **Enable Custom CSS**: Yes
 
-- [Rsbuild documentation](https://rsbuild.rs) - explore Rsbuild features and APIs.
-- [Rsbuild GitHub repository](https://github.com/web-infra-dev/rsbuild) - your feedback and contributions are welcome!
+Custom CSS for transparency:
+```css
+body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
+```
+
+### Overlay Settings
+
+Access the settings panel (⚙️) to configure:
+- 🎨 Theme selection
+- 📱 Layout mode (horizontal/vertical)
+- 🌍 Interface language
+- 📂 Git project path
+
+## 💻 Development
+
+### Available Commands
+
+```bash
+# Development
+pnpm dev         # Start development server
+pnpm build       # Build for production
+pnpm preview     # Preview production build
+
+# Code Quality
+pnpm format      # Format code with Biome
+pnpm lint        # Check for linting errors
+pnpm check       # Auto-fix code issues
+```
+
+## 🛠️ Tech Stack
+
+- **Frontend Framework**
+  - [React](https://reactjs.org/) - UI library
+  - [Rsbuild](https://rsbuild.dev/) - Build tool
+
+- **Styling & UI**
+  - [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS
+  - [DaisyUI](https://daisyui.com/) - Component library
+  - [Lucide Icons](https://lucide.dev/) - Beautiful icons
+
+- **Code Quality**
+  - [Biome](https://biomejs.dev/) - Formatter & linter
+  - [TypeScript](https://www.typescriptlang.org/) - Type safety
+
+## 📺 Stream Integration Tips
+
+- Use the horizontal layout for bottom bars
+- Use the vertical layout for side panels
+- Match the theme to your stream's color scheme
+- Enable transparency for better integration
+- Position the overlay away from important game UI elements
+- Consider using custom CSS for additional effects
+
+## 📚 Resources
+
+- [OBS Studio Documentation](https://obsproject.com/wiki/)
+- [Browser Source Properties](https://obsproject.com/wiki/Sources-Guide#browser-source)
+- [Rsbuild Documentation](https://rsbuild.dev/)
+- [TailwindCSS Documentation](https://tailwindcss.com/docs)
