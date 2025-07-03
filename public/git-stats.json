@@ -1,16 +1,16 @@
 {
   "project_name": "potential",
-  "today_insertions": 2406,
-  "today_deletions": 48,
-  "today_commits": 2,
+  "today_insertions": 2597,
+  "today_deletions": 243,
+  "today_commits": 3,
   "latest_commit": {
-    "hash": "62fa2d14",
-    "message": "update\n",
+    "hash": "727df530",
+    "message": "feat: changed full ui\n",
     "author": "XDasdazdea",
-    "date": "2025-07-03 18:03:32",
-    "files_changed": 11,
-    "insertions": 206,
-    "deletions": 48
+    "date": "2025-07-03 18:08:01",
+    "files_changed": 10,
+    "insertions": 191,
+    "deletions": 195
   },
-  "last_updated": "2025-07-03 18:07:37"
+  "last_updated": "2025-07-03 18:47:42"
 }

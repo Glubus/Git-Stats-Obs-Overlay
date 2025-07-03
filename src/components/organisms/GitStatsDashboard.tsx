@@ -2,7 +2,7 @@ import React from 'react';
 import type { GitStats } from '../../types/git-stats';
 import { TodayStats } from '../molecules/TodayStats';
 import { CommitCard } from '../molecules/CommitCard';
-import { RefreshCw } from 'lucide-react';
+import { Header } from './Header';
 
 interface GitStatsDashboardProps {
   gitStats: GitStats;
@@ -15,37 +15,25 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
   onRefresh,
   loading
 }) => {
-  const formatMessage = (message: string, maxLength: number = 60) => {
+  const formatMessage = (message: string, maxLength: number = 50) => {
     if (message.length <= maxLength) return message;
     return message.substring(0, maxLength) + '...';
   };
 
   return (
-    <div className="min-h-screen bg-base-100 p-6">
-      {/* Header */}
-      <div className="navbar bg-base-200 rounded-box mb-6">
-        <div className="flex-1">
-          <h1 className="text-2xl font-bold font-mono ml-4">
-            📊 Git Stats - {gitStats.project_name}
-          </h1>
-        </div>
-        <div className="flex-none gap-4">
-          <span className="text-base-content/70 text-sm font-mono">
-            Mise à jour: {gitStats.last_updated}
-          </span>
-          <button 
-            className={`btn btn-square btn-ghost ${loading ? 'loading' : ''}`}
-            onClick={onRefresh}
-            disabled={loading}
-          >
-            <RefreshCw className="w-6 h-6" />
-          </button>
-        </div>
-      </div>
+    <div style={{ background: 'transparent' }} className="p-8">
 
-      <div className="flex flex-col lg:flex-row gap-6">
+
+      <div className="flex gap-6">
+
         {/* Stats */}
-        <div className="w-full lg:w-1/3">
+        <div className="w-1/3">
+        <Header
+        projectName={gitStats.project_name}
+        lastUpdated={gitStats.last_updated}
+        onRefresh={onRefresh}
+        loading={loading}
+      />
           <TodayStats
             insertions={gitStats.today_insertions}
             deletions={gitStats.today_deletions}
@@ -54,19 +42,12 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
         </div>
 
         {/* Commit Info */}
-        <div className="w-full lg:w-2/3">
+        <div className="w-2/3">
           <CommitCard
             commit={gitStats.latest_commit}
             formatMessage={formatMessage}
           />
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="text-center mt-8">
-        <p className="text-sm text-base-content/50 font-mono">
-          Actualisation automatique toutes les 30 secondes
-        </p>
       </div>
     </div>
   );

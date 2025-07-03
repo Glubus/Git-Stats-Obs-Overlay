@@ -1,5 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui"{
+  themes: all;
+}
 
 /* OBS optimized styles */
 .obs-card {
@@ -34,14 +42,132 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+html, body, #root {
+  background: transparent !important;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+  background: transparent !important;
+}
+
+/* Ensure all background containers are truly transparent */
+.bg-transparent {
+  background: transparent !important;
+}
+
+/* Semi-transparent backgrounds for cards and containers */
+.bg-base-200\/80 {
+  background-color: rgba(var(--b2) / 0.8) !important;
+}
+
+/* Custom styles */
+@layer base {
+  html {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+[data-theme="light"] {
+  background: transparent !important;
+}
+[data-theme="dark"] {
+  background: transparent !important;
+}
+[data-theme="cupcake"] {
+  background: transparent !important;
+}
+[data-theme="bumblebee"] {
+  background: transparent !important;
+}
+[data-theme="emerald"] {
+  background: transparent !important;
+}
+[data-theme="corporate"] {
+  background: transparent !important;
+}
+[data-theme="synthwave"] {
+  background: transparent !important;
+}
 [data-theme="retro"] {
-  font-family: monospace;
+  background: transparent !important;
+}
+[data-theme="cyberpunk"] {
+  background: transparent !important;
+}
+[data-theme="valentine"] {
+  background: transparent !important;
+}
+[data-theme="halloween"] {
+  background: transparent !important;
+}
+[data-theme="garden"] {
+  background: transparent !important;
+}
+[data-theme="forest"] {
+  background: transparent !important;
+}
+[data-theme="aqua"] {
+  background: transparent !important;
+}
+[data-theme="lofi"] {
+  background: transparent !important;
+}
+[data-theme="pastel"] {
+  background: transparent !important;
+}
+[data-theme="fantasy"] {
+  background: transparent !important;
+}
+[data-theme="wireframe"] {
+  background: transparent !important;
+}
+[data-theme="black"] {
+  background: transparent !important;
+}
+[data-theme="luxury"] {
+  background: transparent !important;
+}
+[data-theme="dracula"] {
+  background: transparent !important;
+}
+[data-theme="cmyk"] {
+  background: transparent !important;
+}
+[data-theme="autumn"] {
+  background: transparent !important;
+}
+[data-theme="business"] {
+  background: transparent !important;
+}
+[data-theme="acid"] {
+  background: transparent !important;
+}
+[data-theme="lemonade"] {
+  background: transparent !important;
+}
+[data-theme="night"] {
+  background: transparent !important;
+}
+[data-theme="coffee"] {
+  background: transparent !important;
+}
+[data-theme="winter"] {
+  background: transparent !important;
+}
+[data-theme="dim"] {
+  background: transparent !important;
+}
+[data-theme="nord"] {
+  background: transparent !important;
+}
+[data-theme="sunset"] {
+  background: transparent !important;
 }
 
-html {
-  @apply bg-base-100;
-}
-
-html[data-theme="retro"] * {
-  font-family: monospace;
+/* Force Poppins on all text elements */
+h1, h2, h3, h4, h5, h6,
+p, span, div, button {
+  font-family: 'Poppins', sans-serif !important;
 }

@@ -1,36 +1,48 @@
 import React from 'react';
-import { StatCard } from '../atoms/StatCard';
+import { GitCommit, Plus, Minus } from 'lucide-react';
 
 interface TodayStatsProps {
+  commits: number;
   insertions: number;
   deletions: number;
-  commits: number;
 }
 
 export const TodayStats: React.FC<TodayStatsProps> = ({
+  commits,
   insertions,
   deletions,
-  commits,
 }) => {
-  const totalChanges = insertions + deletions;
-
   return (
-    <div className="stats stats-vertical shadow bg-base-200 w-full">
-      <StatCard
-        title="Lignes ajoutées"
-        value={insertions}
-        type="insertions"
-      />
-      <StatCard
-        title="Lignes supprimées"
-        value={deletions}
-        type="deletions"
-      />
-      <StatCard
-        title="Commits"
-        value={commits}
-        type="commits"
-      />
+    <div className="card bg-base-300 shadow-xl">
+      <div className="card-body p-4">
+        <h2 className="text-3xl font-bold mb-4">Aujourd'hui</h2>
+        
+        <div className="stats stats-horizontal shadow bg-base-200 w-full">
+          <div className="stat p-4">
+            <div className="stat-title text-lg mb-1">Commits</div>
+            <div className="stat-value text-2xl">{commits}</div>
+            <div className="stat-figure text-primary">
+              <GitCommit className="w-6 h-6" />
+            </div>
+          </div>
+          
+          <div className="stat p-4">
+            <div className="stat-title text-lg mb-1">Ajouts</div>
+            <div className="stat-value text-2xl text-success">{insertions}</div>
+            <div className="stat-figure text-success">
+              <Plus className="w-6 h-6" />
+            </div>
+          </div>
+          
+          <div className="stat p-4">
+            <div className="stat-title text-lg mb-1">Retraits</div>
+            <div className="stat-value text-2xl text-error">{deletions}</div>
+            <div className="stat-figure text-error">
+              <Minus className="w-6 h-6" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }; 

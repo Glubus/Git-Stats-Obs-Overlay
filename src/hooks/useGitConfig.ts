@@ -1,46 +1,45 @@
 import { useState, useEffect } from 'react';
-import type { GitStatsConfig } from '../types/git-stats';
 
-interface UseGitConfigReturn {
-  config: GitStatsConfig | null;
-  loading: boolean;
-  error: string | null;
+interface GitConfig {
+  project_path: string;
+}
+
+export interface UseGitConfigReturn {
+  config: GitConfig | null;
+  updateConfig: (newConfig: Partial<GitConfig>) => void;
 }
 
 export const useGitConfig = (): UseGitConfigReturn => {
-  const [config, setConfig] = useState<GitStatsConfig | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [config, setConfig] = useState<GitConfig | null>(null);
 
   useEffect(() => {
-    const loadConfig = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        // Charger depuis public/config.json
-        const response = await fetch('/config.json');
-        
-        if (!response.ok) {
-          throw new Error('Fichier de configuration non trouvé');
-        }
-        
-        const data: GitStatsConfig = await response.json();
-        setConfig(data);
-      } catch (err) {
-        console.error('Error loading git config:', err);
-        setError(err instanceof Error ? err.message : 'Erreur inconnue');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadConfig();
+    fetch('/config.json')
+      .then(response => response.json())
+      .then(data => setConfig(data))
+      .catch(error => console.error('Error loading config:', error));
   }, []);
 
-  return {
-    config,
-    loading,
-    error
+  const updateConfig = async (newConfig: Partial<GitConfig>) => {
+    if (!config) return;
+    
+    const updatedConfig = { ...config, ...newConfig };
+    
+    try {
+      const response = await fetch('/config.json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedConfig),
+      });
+      
+      if (response.ok) {
+        setConfig(updatedConfig);
+      }
+    } catch (error) {
+      console.error('Error updating config:', error);
+    }
   };
+
+  return { config, updateConfig };
 }; 
