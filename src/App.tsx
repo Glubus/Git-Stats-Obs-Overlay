@@ -65,10 +65,10 @@ function App() {
       ) : (
         gitStats && (
           <GitStatsDashboard
-            gitStats={gitStats}
-            onRefresh={refresh}
-            loading={loading}
-          />
+        gitStats={gitStats}
+        onRefresh={refresh}
+        loading={loading}
+      />
         )
       )}
     </div>

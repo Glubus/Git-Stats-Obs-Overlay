@@ -21,9 +21,9 @@ Si aucun chemin n'est spécifié, le dossier courant sera utilisé par défaut.
 ## Installation
 
 1. Installez les dépendances :
-   ```bash
-   pnpm install
-   ```
+```bash
+pnpm install
+```
 
 2. Lancez l'application :
    ```bash
