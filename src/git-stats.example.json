@@ -1,0 +1,16 @@
+{
+  "project_name": "test",
+  "today_insertions": 285,
+  "today_deletions": 47,
+  "today_commits": 8,
+  "latest_commit": {
+    "hash": "a7f3c2e1",
+    "message": "feat: Add Git statistics display with DaisyUI and real-time updates",
+    "author": "Developer",
+    "date": "2024-01-15 16:45:22",
+    "files_changed": 6,
+    "insertions": 142,
+    "deletions": 23
+  },
+  "last_updated": "2024-01-15 16:50:15"
+} 
