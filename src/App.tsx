@@ -1,9 +1,14 @@
 import React from 'react';
-import './App.css';
 import { DashboardPage } from './pages/DashboardPage';
+import { LanguageProvider } from './i18n/LanguageContext';
+import './App.css';
 
 function App() {
-  return <DashboardPage />;
+  return (
+    <LanguageProvider>
+      <DashboardPage />
+    </LanguageProvider>
+  );
 }
 
 export default App;

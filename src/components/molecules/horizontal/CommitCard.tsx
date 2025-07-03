@@ -1,6 +1,8 @@
 import React from 'react';
 import type { CommitInfo } from '../../../types/git-stats';
-import { GitCommit, User, Calendar, FileCode, Plus, Minus } from 'lucide-react';
+import { GitCommit, User, Calendar, FileCode, Plus, Minus, MessageSquare } from 'lucide-react';
+import { useLanguage } from '../../../hooks/useLanguage';
+import { useTranslation } from '../../../i18n';
 
 interface CommitCardProps {
   commit: CommitInfo;
@@ -8,11 +10,14 @@ interface CommitCardProps {
 }
 
 export const CommitCard: React.FC<CommitCardProps> = ({ commit, formatMessage }) => {
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
+
   return (
     <div className="card bg-base-300 shadow-xl">
       <div className="card-body p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-3xl font-bold">Dernier Commit</h2>
+        <div className="flex items-center justify-between mb-0">
+          <h2 className="text-3xl font-bold">{t('stats.lastCommit')}</h2>
           <div className="flex items-center gap-4 text-lg opacity-80">
             <div className="flex items-center gap-2">
               <User className="w-5 h-5" />
@@ -26,7 +31,11 @@ export const CommitCard: React.FC<CommitCardProps> = ({ commit, formatMessage })
           </div>
         </div>
         
-        <div className="card bg-base-200 p-4 mb-4">
+        <div className="card bg-base-200 p-4 mb-3">
+          <div className="flex items-center gap-2 text-sm mb-0 opacity-70">
+            <MessageSquare className="w-4 h-4" />
+            <span>{t('stats.message')}</span>
+          </div>
           <p className="text-xl">
             {formatMessage(commit.message)}
           </p>
@@ -34,7 +43,7 @@ export const CommitCard: React.FC<CommitCardProps> = ({ commit, formatMessage })
         
         <div className="stats stats-horizontal shadow bg-base-200 w-full">
           <div className="stat p-4">
-            <div className="stat-title text-lg mb-1">Fichiers</div>
+            <div className="stat-title text-lg mb-1">{t('stats.files')}</div>
             <div className="stat-value text-2xl">{commit.files_changed}</div>
             <div className="stat-figure">
               <FileCode className="w-6 h-6" />
@@ -42,7 +51,7 @@ export const CommitCard: React.FC<CommitCardProps> = ({ commit, formatMessage })
           </div>
           
           <div className="stat p-4">
-            <div className="stat-title text-lg mb-1">Ajouts</div>
+            <div className="stat-title text-lg mb-1">{t('stats.additions')}</div>
             <div className="stat-value text-2xl text-success">{commit.insertions}</div>
             <div className="stat-figure text-success">
               <Plus className="w-6 h-6" />
@@ -50,7 +59,7 @@ export const CommitCard: React.FC<CommitCardProps> = ({ commit, formatMessage })
           </div>
           
           <div className="stat p-4">
-            <div className="stat-title text-lg mb-1">Retraits</div>
+            <div className="stat-title text-lg mb-1">{t('stats.deletions')}</div>
             <div className="stat-value text-2xl text-error">{commit.deletions}</div>
             <div className="stat-figure text-error">
               <Minus className="w-6 h-6" />

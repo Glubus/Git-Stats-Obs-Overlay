@@ -13,12 +13,14 @@ export const MainTemplate: React.FC<MainTemplateProps> = ({
 }) => {
   return (
     <div data-theme={theme} className="min-h-screen compact-layout">
+      <div className="container mx-auto">
+        {children}
+      </div>
       {header && (
-        <div className="absolute top-4 right-4 z-10">
+        <div className="fixed bottom-4 right-4">
           {header}
         </div>
       )}
-      {children}
     </div>
   );
 }; 

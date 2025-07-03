@@ -1,5 +1,7 @@
 import React from 'react';
 import { GitCommit, Plus, Minus } from 'lucide-react';
+import { useLanguage } from '../../../hooks/useLanguage';
+import { useTranslation } from '../../../i18n';
 
 interface TodayStatsProps {
   commits: number;
@@ -12,34 +14,37 @@ export const TodayStats: React.FC<TodayStatsProps> = ({
   insertions,
   deletions
 }) => {
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
+
   return (
     <div className="card bg-base-300 shadow-xl">
       <div className="card-body p-4">
-        <h2 className="text-2xl font-bold mb-4">Aujourd'hui</h2>
+        <h2 className="text-3xl font-bold mb-4">{t('stats.today')}</h2>
         
         <div className="stats stats-vertical shadow bg-base-200 w-full">
-          <div className="stat p-2">
+          <div className="stat p-4">
+            <div className="stat-title text-lg mb-1">{t('stats.commits')}</div>
+            <div className="stat-value text-2xl">{commits}</div>
             <div className="stat-figure text-primary">
-              <GitCommit className="w-5 h-5" />
+              <GitCommit className="w-6 h-6" />
             </div>
-            <div className="stat-title text-base">Commits</div>
-            <div className="stat-value text-xl">{commits}</div>
           </div>
           
-          <div className="stat p-2">
+          <div className="stat p-4">
+            <div className="stat-title text-lg mb-1">{t('stats.additions')}</div>
+            <div className="stat-value text-2xl text-success">{insertions}</div>
             <div className="stat-figure text-success">
-              <Plus className="w-5 h-5" />
+              <Plus className="w-6 h-6" />
             </div>
-            <div className="stat-title text-base">Ajouts</div>
-            <div className="stat-value text-xl text-success">{insertions}</div>
           </div>
           
-          <div className="stat p-2">
+          <div className="stat p-4">
+            <div className="stat-title text-lg mb-1">{t('stats.deletions')}</div>
+            <div className="stat-value text-2xl text-error">{deletions}</div>
             <div className="stat-figure text-error">
-              <Minus className="w-5 h-5" />
+              <Minus className="w-6 h-6" />
             </div>
-            <div className="stat-title text-base">Retraits</div>
-            <div className="stat-value text-xl text-error">{deletions}</div>
           </div>
         </div>
       </div>

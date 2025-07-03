@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { SettingsModal } from '../molecules/SettingsModal';
+import { useLanguage } from '../../hooks/useLanguage';
+import type { Language } from '../../i18n';
 
 interface SettingsManagerProps {
   currentPath: string;
@@ -22,6 +24,7 @@ export const SettingsManager: React.FC<SettingsManagerProps> = ({
   const [path, setPath] = useState(currentPath);
   const [theme, setTheme] = useState(currentTheme);
   const [layout, setLayout] = useState(currentLayout);
+  const { language, changeLanguage } = useLanguage();
 
   const handleSave = () => {
     onPathChange(path);
@@ -37,9 +40,11 @@ export const SettingsManager: React.FC<SettingsManagerProps> = ({
       path={path}
       theme={theme}
       layout={layout}
+      language={language}
       onPathChange={setPath}
       onThemeChange={setTheme}
       onLayoutChange={setLayout}
+      onLanguageChange={changeLanguage}
       onSave={handleSave}
     />
   );
