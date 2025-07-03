@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MainTemplate } from '../components/templates/MainTemplate';
-import { GitStatsDashboard } from '../components/organisms/GitStatsDashboard';
+import { GitStatsDashboard as HorizontalDashboard } from '../components/organisms/horizontal/GitStatsDashboard';
+import { GitStatsDashboard as VerticalDashboard } from '../components/organisms/vertical/GitStatsDashboard';
 import { useGitStats } from '../hooks/useGitStats';
 import { useGitConfig } from '../hooks/useGitConfig';
 import { SettingsManager } from '../components/organisms/SettingsManager';
@@ -35,6 +36,8 @@ export const DashboardPage: React.FC = () => {
     );
   }
 
+  const Dashboard = layout === 'vertical' ? VerticalDashboard : HorizontalDashboard;
+
   return (
     <MainTemplate
       theme={theme}
@@ -52,11 +55,10 @@ export const DashboardPage: React.FC = () => {
         </div>
       }
     >
-      <GitStatsDashboard
+      <Dashboard
         gitStats={gitStats}
         onRefresh={refresh}
         loading={loading}
-        layout={layout}
       />
     </MainTemplate>
   );

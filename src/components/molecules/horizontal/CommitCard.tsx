@@ -1,5 +1,5 @@
 import React from 'react';
-import type { CommitInfo } from '../../types/git-stats';
+import type { CommitInfo } from '../../../types/git-stats';
 import { GitCommit, User, Calendar, FileCode, Plus, Minus } from 'lucide-react';
 
 interface CommitCardProps {

@@ -1,15 +1,15 @@
 import React from 'react';
-import type { ReactNode } from 'react';
+import type { LucideIcon } from 'lucide-react';
 
 interface StatCardProps {
-  icon: ReactNode;
+  icon: LucideIcon;
   label: string;
   value: number;
   className?: string;
 }
 
 export const StatCard: React.FC<StatCardProps> = ({
-  icon,
+  icon: Icon,
   label,
   value,
   className = ''
@@ -19,7 +19,7 @@ export const StatCard: React.FC<StatCardProps> = ({
       <div className="card-body p-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            {icon}
+            <Icon className="w-4 h-4" />
             <div className="text-sm">{label}</div>
           </div>
           <div className="text-lg font-bold">{value}</div>

@@ -10,7 +10,7 @@ interface TodayStatsProps {
 export const TodayStats: React.FC<TodayStatsProps> = ({
   commits,
   insertions,
-  deletions,
+  deletions
 }) => {
   return (
     <div className="card bg-base-300 shadow-xl">
@@ -39,7 +39,7 @@ export const TodayStats: React.FC<TodayStatsProps> = ({
             <div className="stat-value text-2xl text-error">{deletions}</div>
             <div className="stat-figure text-error">
               <Minus className="w-6 h-6" />
-        </div>
+            </div>
           </div>
         </div>
       </div>
