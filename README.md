@@ -65,19 +65,6 @@ PROJECT_PATH=C:/Users/username/projects/my-project
 UPDATE_INTERVAL=30000
 ```
 
-### OBS Source Settings
-
-Recommended browser source settings:
-- **Width**: 800px (horizontal) / 300px (vertical)
-- **Height**: 200px (horizontal) / 600px (vertical)
-- **FPS**: 60
-- **Enable Custom CSS**: Yes
-
-Custom CSS for transparency:
-```css
-body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
-```
-
 ### Overlay Settings
 
 Access the settings panel (⚙️) to configure:
