@@ -1,7 +1,8 @@
-import React from 'react';
-import { Settings } from 'lucide-react';
+import React, { useState } from 'react';
+import { Settings, ChevronDown } from 'lucide-react';
 import type { Language } from '../../i18n';
 import { useTranslation } from '../../i18n';
+import { FR, GB, CN } from 'country-flag-icons/react/3x2';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -25,10 +26,10 @@ const THEMES = [
   'winter', 'dim', 'nord', 'sunset'
 ];
 
-const LANGUAGES: { value: Language; label: string }[] = [
-  { value: 'fr', label: 'Français' },
-  { value: 'en', label: 'English' },
-  { value: 'zh', label: '中文' },
+const LANGUAGES: { value: Language; label: string; flag: React.ReactNode }[] = [
+  { value: 'fr', label: 'Français', flag: <FR className="w-6 h-4" /> },
+  { value: 'en', label: 'English', flag: <GB className="w-6 h-4" /> },
+  { value: 'zh', label: '中文', flag: <CN className="w-6 h-4" /> },
 ];
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -45,6 +46,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onSave
 }) => {
   const { t } = useTranslation(language);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+
+  const currentLang = LANGUAGES.find(l => l.value === language);
 
   return (
     <>
@@ -105,15 +109,38 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <label className="label">
               <span className="label-text">Language</span>
             </label>
-            <select
-              className="select select-bordered w-full"
-              value={language}
-              onChange={(e) => onLanguageChange(e.target.value as Language)}
-            >
-              {LANGUAGES.map((lang) => (
-                <option key={lang.value} value={lang.value}>{lang.label}</option>
-              ))}
-            </select>
+            <div className="relative">
+              <button
+                type="button"
+                className="select select-bordered w-full flex items-center justify-between"
+                onClick={() => setIsLangOpen(!isLangOpen)}
+              >
+                <div className="flex items-center gap-2">
+                  {currentLang?.flag}
+                  <span>{currentLang?.label}</span>
+                </div>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              {isLangOpen && (
+                <div className="absolute top-full left-0 w-full mt-1 bg-base-100 rounded-lg border border-base-300 shadow-lg z-50">
+                  {LANGUAGES.map((lang) => (
+                    <button
+                      key={lang.value}
+                      className={`w-full px-4 py-2 flex items-center gap-2 hover:bg-base-200 ${
+                        lang.value === language ? 'bg-base-200' : ''
+                      }`}
+                      onClick={() => {
+                        onLanguageChange(lang.value);
+                        setIsLangOpen(false);
+                      }}
+                    >
+                      {lang.flag}
+                      <span>{lang.label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="modal-action">
