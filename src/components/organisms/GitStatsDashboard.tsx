@@ -21,19 +21,17 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
   };
 
   return (
-    <div style={{ background: 'transparent' }} className="p-8">
-
-
-      <div className="flex gap-6">
-
+    <div style={{ background: 'transparent' }} className="p-4">
+      {/* Layout qui passe de horizontal à vertical selon la largeur */}
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Stats */}
-        <div className="w-1/3">
-        <Header
-        projectName={gitStats.project_name}
-        lastUpdated={gitStats.last_updated}
-        onRefresh={onRefresh}
-        loading={loading}
-      />
+        <div className="lg:w-1/3 w-full">
+          <Header
+            projectName={gitStats.project_name}
+            lastUpdated={gitStats.last_updated}
+            onRefresh={onRefresh}
+            loading={loading}
+          />
           <TodayStats
             insertions={gitStats.today_insertions}
             deletions={gitStats.today_deletions}
@@ -42,7 +40,7 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
         </div>
 
         {/* Commit Info */}
-        <div className="w-2/3">
+        <div className="lg:w-2/3 w-full">
           <CommitCard
             commit={gitStats.latest_commit}
             formatMessage={formatMessage}

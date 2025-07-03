@@ -18,7 +18,9 @@
         "height": 600,
         "resizable": true,
         "title": "git-stats-overlay",
-        "width": 800
+        "width": 1480,
+        "transparent": true,
+        "decorations": true
       }
     ]
   },
