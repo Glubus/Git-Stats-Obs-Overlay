@@ -1,16 +1,16 @@
 {
   "project_name": "potential",
-  "today_insertions": 3180,
-  "today_deletions": 512,
-  "today_commits": 5,
+  "today_insertions": 7582,
+  "today_deletions": 530,
+  "today_commits": 6,
   "latest_commit": {
-    "hash": "15e3325f",
-    "message": "first\n",
+    "hash": "170f10c0",
+    "message": "added tauri distribution for windows\n",
     "author": "XDasdazdea",
-    "date": "2025-07-03 18:50:31",
-    "files_changed": 2,
-    "insertions": 25,
-    "deletions": 15
+    "date": "2025-07-03 19:29:50",
+    "files_changed": 28,
+    "insertions": 4402,
+    "deletions": 18
   },
-  "last_updated": "2025-07-03 19:29:24"
+  "last_updated": "2025-07-03 20:38:17"
 }

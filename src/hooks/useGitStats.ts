@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { invoke } from '@tauri-apps/api/core';
 import type { GitStats } from '../types/git-stats';
 import appConfig from '../config/app.config';
 
@@ -7,7 +8,7 @@ interface UseGitStatsReturn {
   loading: boolean;
   error: string | null;
   lastRefresh: Date;
-  refresh: () => void;
+  refresh: () => Promise<void>;
 }
 
 export const useGitStats = (): UseGitStatsReturn => {
@@ -21,23 +22,12 @@ export const useGitStats = (): UseGitStatsReturn => {
       setLoading(true);
       setError(null);
       
-      // Charger depuis public/ avec le chemin configuré
-      const response = await fetch(`${appConfig.statsFilePath}?t=${Date.now()}`);
-      
-      if (!response.ok) {
-        throw new Error('Fichier de statistiques non trouvé. Exécutez update-git-stats.bat');
+      const jsonStr = await invoke<string>('get_git_stats', { path: 'G:/potential' });
+      const stats = JSON.parse(jsonStr);
+      if (Object.keys(stats).length > 0) {
+        setGitStats(stats);
+        setLastRefresh(new Date());
       }
-      
-      const text = await response.text();
-      console.log('Received JSON text:', text.substring(0, 100) + '...');
-      
-      if (!text.trim()) {
-        throw new Error('Le fichier git-stats.json est vide');
-      }
-      
-      const data: GitStats = JSON.parse(text);
-      setGitStats(data);
-      setLastRefresh(new Date());
     } catch (err) {
       console.error('Error loading git stats:', err);
       setError(err instanceof Error ? err.message : 'Erreur inconnue');
@@ -47,12 +37,14 @@ export const useGitStats = (): UseGitStatsReturn => {
   }, []);
 
   useEffect(() => {
-    loadGitStats();
+    const init = async () => {
+      await loadGitStats();
+      // Auto-refresh using configured interval
+      const interval = setInterval(loadGitStats, appConfig.refreshInterval);
+      return () => clearInterval(interval);
+    };
     
-    // Auto-refresh using configured interval
-    const interval = setInterval(loadGitStats, appConfig.refreshInterval);
-    
-    return () => clearInterval(interval);
+    init();
   }, [loadGitStats]);
 
   return {
