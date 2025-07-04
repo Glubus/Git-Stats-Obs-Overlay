@@ -4,6 +4,7 @@ import { GitCommit, User, Calendar, FileCode, Plus, Minus, MessageSquare } from 
 import { useLanguage } from '../../../hooks/useLanguage';
 import { useTranslation } from '../../../i18n';
 import { TodayCard } from '../../atoms/horizontal/TodayCard';
+import { MarqueeText } from '../../atoms/horizontal/MarqueeText';
 
 interface CommitCardProps {
   commit: CommitInfo;
@@ -37,9 +38,10 @@ export const CommitCard: React.FC<CommitCardProps> = ({ commit, formatMessage })
             <MessageSquare className="w-4 h-4" />
             <span>{t('stats.commit.message')}</span>
           </div>
-          <p className="text-xl">
-            {formatMessage(commit.message)}
-          </p>
+          <MarqueeText
+            className="text-xl"
+            text={formatMessage(commit.message)}
+          />
         </div>
 
                 <div className="stats stats-horizontal shadow bg-base-200 w-full">

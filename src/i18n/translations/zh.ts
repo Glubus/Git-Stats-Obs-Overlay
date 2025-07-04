@@ -17,7 +17,10 @@ export default {
       message: '消息',
       author: '作者',
       date: '日期',
-      hash: '哈希'
+      hash: '哈希',
+      files: '文件修改',
+      insertions: '添加',
+      deletions: '删除'
     }
   },
   settings: {
