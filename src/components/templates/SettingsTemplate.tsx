@@ -1,10 +1,11 @@
 import React from 'react';
 import { Settings } from 'lucide-react';
-import { useTranslation } from '../../../i18n';
-import { SettingsForm } from '../../molecules/settings/SettingsForm';
-import type { MarqueeSettings, Theme, Layout, Language } from '../../../types/settings';
+import { useTranslation } from '../../i18n';
+import { SettingsForm } from '../molecules/settings/SettingsForm';
+import type { MarqueeSettings, Theme, Layout, Language } from '../../types/settings';
+import { useSettingsForm } from '../../hooks/useSettingsForm';
 
-interface SettingsModalProps {
+interface SettingsTemplateProps {
   currentPath: string;
   currentTheme: Theme;
   currentLayout: Layout;
@@ -19,7 +20,7 @@ interface SettingsModalProps {
   onPreviewTheme: (theme: Theme) => void;
 }
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({
+export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
   currentPath,
   currentTheme,
   currentLayout,
@@ -35,32 +36,22 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 }) => {
   const { t } = useTranslation(currentLanguage);
   const [isOpen, setIsOpen] = React.useState(false);
-  const [localPath, setLocalPath] = React.useState(currentPath);
 
-  // Log when modal opens/closes
-  React.useEffect(() => {
-    console.log('🔍 Settings modal state:', isOpen ? 'open' : 'closed');
-  }, [isOpen]);
-
-  // Log when props change
-  React.useEffect(() => {
-    console.log('📊 Settings modal received new props:', {
-      path: currentPath,
-      theme: currentTheme,
-      layout: currentLayout,
-      language: currentLanguage,
-      marquee: currentMarquee
-    });
-  }, [currentPath, currentTheme, currentLayout, currentLanguage, currentMarquee]);
-
-  const handlePathChange = (path: string) => {
-    console.log('✏️ Local path change:', path);
-    setLocalPath(path);
-  };
-
-  React.useEffect(() => {
-    setLocalPath(currentPath);
-  }, [currentPath]);
+  const { localPath, handlePathChange, handleSave } = useSettingsForm({
+    initialPath: currentPath,
+    initialTheme: currentTheme,
+    initialLayout: currentLayout,
+    initialLanguage: currentLanguage,
+    initialMarquee: currentMarquee,
+    onSave: (path) => {
+      onPathChange(path);
+      setIsOpen(false);
+    },
+    onThemeChange,
+    onLayoutChange,
+    onLanguageChange,
+    onMarqueeChange
+  });
 
   return (
     <>
@@ -89,11 +80,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             onLayoutChange={onLayoutChange}
             onLanguageChange={onLanguageChange}
             onMarqueeChange={onMarqueeChange}
-            onSave={() => {
-              console.log('💾 Saving settings...');
-              onPathChange(localPath);
-              setIsOpen(false);
-            }}
+            onSave={handleSave}
           />
         </div>
         <form method="dialog" className="modal-backdrop">

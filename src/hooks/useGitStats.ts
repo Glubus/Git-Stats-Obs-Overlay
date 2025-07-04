@@ -25,13 +25,13 @@ export const useGitStats = (path: string): UseGitStatsReturn => {
     }
 
     try {
-      setLoading(true);
+        setLoading(true);
       const jsonStr = await invoke<string>('get_git_stats', { path });
       const stats = JSON.parse(jsonStr);
       
       if (Object.keys(stats).length > 0) {
-        setGitStats(stats);
-        setLastRefresh(new Date());
+          setGitStats(stats);
+          setLastRefresh(new Date());
         setError(null);
       } else {
         setError('Aucune statistique trouvée');
