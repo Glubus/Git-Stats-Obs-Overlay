@@ -6,6 +6,15 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        }
+      },
+      animation: {
+        'scroll': 'scroll 20s linear infinite'
+      },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
       },
@@ -13,12 +22,6 @@ export default {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: true,
-    base: true,
-    styled: true,
-    utils: true,
-    prefix: "",
-    logs: true,
-    themeRoot: ":root",
-  }
+    themes: ["light", "dark", "cupcake", "cyberpunk", "synthwave"],
+  },
 } 

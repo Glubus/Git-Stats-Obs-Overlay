@@ -21,10 +21,8 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
   };
 
   return (
-    <div style={{ background: 'transparent' }} className="p-4">
-      <div className="flex flex-row gap-4">
-        {/* Stats */}
-        <div className="w-1/3">
+    <div className="grid grid-cols-5 gap-4">
+      <div className="col-span-2">
           <Header
             projectName={gitStats.project_name}
             lastUpdated={gitStats.last_updated}
@@ -37,14 +35,11 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
             commits={gitStats.today_commits}
           />
         </div>
-
-        {/* Commit Info */}
-        <div className="w-2/3">
+      <div className="col-span-3">
           <CommitCard
             commit={gitStats.latest_commit}
             formatMessage={formatMessage}
           />
-        </div>
       </div>
     </div>
   );

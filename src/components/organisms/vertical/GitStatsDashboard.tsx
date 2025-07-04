@@ -21,8 +21,7 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
   };
 
   return (
-    <div style={{ background: 'transparent' }} className="p-4 max-w-sm mx-auto">
-      <div className="flex flex-col gap-4">
+    <div className="space-y-4">
         <Header
           projectName={gitStats.project_name}
           lastUpdated={gitStats.last_updated}
@@ -38,7 +37,6 @@ export const GitStatsDashboard: React.FC<GitStatsDashboardProps> = ({
           commit={gitStats.latest_commit}
           formatMessage={formatMessage}
         />
-      </div>
     </div>
   );
 }; 

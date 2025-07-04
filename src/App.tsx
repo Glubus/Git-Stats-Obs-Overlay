@@ -1,14 +1,15 @@
 import React from 'react';
-import { DashboardPage } from './pages/DashboardPage';
+import { MainTemplate } from './components/templates/MainTemplate';
+import { SettingsProvider } from './contexts/SettingsContext';
 import { LanguageProvider } from './i18n/LanguageContext';
 import './App.css';
 
-function App() {
+export const App: React.FC = () => {
   return (
-    <LanguageProvider>
-      <DashboardPage />
-    </LanguageProvider>
+    <SettingsProvider>
+      <LanguageProvider>
+        <MainTemplate />
+      </LanguageProvider>
+    </SettingsProvider>
   );
-}
-
-export default App;
+};

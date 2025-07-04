@@ -1,30 +1,30 @@
-import { en } from './translations/en';
-import { fr } from './translations/fr';
-import { zh } from './translations/zh';
-
-export type Language = 'en' | 'fr' | 'zh';
+import en from './translations/en';
+import fr from './translations/fr';
+import zh from './translations/zh';
 
 const translations = {
-  en,
-  fr,
-  zh,
+    en,
+    fr,
+    zh
 };
 
-export const useTranslation = (lang: Language = 'fr') => {
-  const t = (key: string) => {
-    const keys = key.split('.');
-    let value: any = translations[lang];
-    
-    for (const k of keys) {
-      if (value && typeof value === 'object') {
-        value = value[k];
-      } else {
-        return key;
-      }
-    }
-    
-    return value || key;
-  };
+export type Language = keyof typeof translations;
 
-  return { t };
+export const useTranslation = (language: Language) => {
+    return {
+        t: (key: string) => {
+            const keys = key.split('.');
+            let value: any = translations[language];
+            
+            for (const k of keys) {
+                if (value && typeof value === 'object') {
+                    value = value[k];
+                } else {
+                    return key;
+                }
+            }
+            
+            return typeof value === 'string' ? value : key;
+        }
+    };
 }; 

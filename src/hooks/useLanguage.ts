@@ -1,6 +1,9 @@
-import { useLanguageContext } from '../i18n/LanguageContext';
+import { useLanguage as useLanguageContext } from '../i18n/LanguageContext';
 
 export const useLanguage = () => {
-  const { language, setLanguage: changeLanguage } = useLanguageContext();
-  return { language, changeLanguage };
+    const { language, changeLanguage } = useLanguageContext();
+    return {
+        language,
+        changeLanguage
+    };
 }; 

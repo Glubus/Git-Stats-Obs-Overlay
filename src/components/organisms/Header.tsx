@@ -1,5 +1,6 @@
 import React from 'react';
 import { RefreshCw, BarChart3, Clock } from 'lucide-react';
+import { MarqueeText } from '../atoms/horizontal/MarqueeText';
 
 interface HeaderProps {
   projectName: string;
@@ -26,11 +27,13 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <div className="card bg-base-300 shadow-xl mb-3">
       <div className="card-body p-4 flex-row items-center justify-between">
-        <h1 className="text-2xl font-bold flex items-center gap-3">
-          <BarChart3 className="w-7 h-7" />
-          <span>{projectName}</span>
+        <h1 className="text-2xl font-bold flex items-center gap-3 min-w-0 flex-1">
+          <BarChart3 className="w-7 h-7 flex-shrink-0" />
+          <div className="min-w-0 flex-1">
+            <MarqueeText text={projectName} />
+          </div>
         </h1>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-shrink-0">
           <div className="flex items-center gap-2 text-lg opacity-80">
             <Clock className="w-5 h-5" />
             <span>{formatTime(lastUpdated)}</span>
